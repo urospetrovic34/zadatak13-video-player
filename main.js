@@ -1,1 +1,164 @@
+const videoPlayerContainer = document.querySelector(".video-player-container")
+const videoPlayer = document.querySelector(".video-player")
+const controls = document.querySelector(".controls")
+const playPauseButton = document.querySelector(".play-pause-button")
+const muteUnmuteButton = document.querySelector(".mute-unmute-button")
+const progressSlider = document.querySelector(".progress-slider")
+const progressBar = document.querySelector(".progress-bar")
+const fullScreenButton = document.querySelector(".fullscreen-button")
+const time = document.querySelector(".time")
+const header = document.querySelector("header")
+const playBackSpeedButton = document.querySelector(".playback-speed-button")
+const playBackSpeedButtonOptions = document.querySelector(".playback-modal").querySelectorAll("button")
+const playbackModal = document.querySelector(".playback-modal")
+let isClicked = false
 
+const playPause = () => {
+    videoPlayer.paused || videoPlayer.ended ? 
+    (videoPlayer.play(),
+    playPauseButton.querySelector("i").classList.remove("fa-play"),
+    playPauseButton.querySelector("i").classList.add("fa-pause")) 
+    : (videoPlayer.pause(),
+    playPauseButton.querySelector("i").classList.remove("fa-pause"),
+    playPauseButton.querySelector("i").classList.add("fa-play"))
+}
+
+const muteSound = () => {
+    videoPlayer.muted = !videoPlayer.muted
+    videoPlayer.muted ? 
+    (
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-up"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-mute"),
+        progressSlider.value = 0,
+        progressSlider.style.backgroundSize = 0 + "% 100%") : 
+    (
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-mute"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-up"),
+        progressSlider.value = parseFloat(localStorage.getItem("volume"))*100,
+        progressSlider.style.backgroundSize = parseFloat(localStorage.getItem("volume"))*100 + "% 100%"
+        )
+}
+
+const toggleFullscreen = () => {
+    if(!document.fullscreenElement){
+        document.documentElement.requestFullscreen()
+        videoPlayer.classList.add("full-screen-player")
+        header.classList.add("display-none")
+        document.querySelector("body").classList.add("black")
+        fullScreenButton.querySelector("i").classList.add("fa-compress")
+        fullScreenButton.querySelector("i").classList.remove("fa-expand")
+    }
+    else{
+        document.exitFullscreen()
+        videoPlayer.classList.remove("full-screen-player")
+        header.classList.remove("display-none")
+        document.querySelector("body").classList.remove("black")
+        fullScreenButton.querySelector("i").classList.add("fa-expand")
+        fullScreenButton.querySelector("i").classList.remove("fa-compress")
+    }
+}
+
+const toggleSound = (e) => {
+}
+
+progressSlider.addEventListener("wheel",(e)=>{
+    console.log(e.wheelDeltaY)
+    if(e.wheelDeltaY<0)
+    {
+        videoPlayer.volume -= (1*0.01)
+        localStorage.setItem("volume",videoPlayer.volume)
+        progressSlider.value = parseFloat(localStorage.getItem("volume"))*100
+    }
+    else{
+        videoPlayer.volume += (1*0.01)
+        localStorage.setItem("volume",videoPlayer.volume)
+        progressSlider.value = parseFloat(localStorage.getItem("volume"))*100
+    }
+    progressSlider.style.backgroundSize = (videoPlayer.volume*100) + "% 100%"
+    if(videoPlayer.volume===0){
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-up"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-mute")
+    }
+    else{
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-mute"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-up")
+    }
+    if(videoPlayer.muted){
+        muteSound()
+    }
+})
+
+progressSlider.addEventListener("input", (e) => {
+    videoPlayer.volume = e.target.value*0.01
+    localStorage.setItem("volume",videoPlayer.volume)
+    progressSlider.style.backgroundSize = e.target.value + "% 100%"
+    if(videoPlayer.volume===0){
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-up"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-mute")
+    }
+    else{
+        muteUnmuteButton.querySelector("i").classList.remove("fa-volume-mute"),
+        muteUnmuteButton.querySelector("i").classList.add("fa-volume-up")
+    }
+    if(videoPlayer.muted){
+        muteSound()
+    }
+})
+
+window.addEventListener("load", (e) =>{
+    videoPlayer.controls = false
+    progressSlider.value = parseFloat(localStorage.getItem("volume"))*100
+    videoPlayer.volume = progressSlider.value*0.01
+    time.max = videoPlayer.duration
+    time.value = videoPlayer.currentTime
+    progressSlider.style.backgroundSize = parseFloat(localStorage.getItem("volume"))*100 + "% 100%"
+    time.style.backgroundSize = 0 + "% 100%"
+})
+
+videoPlayer.addEventListener("click", (e) =>{
+    e.preventDefault()
+    playPause()
+})
+
+videoPlayer.addEventListener("timeupdate",(e)=>{
+    e.preventDefault()
+    time.value = videoPlayer.currentTime
+    time.style.backgroundSize = ((time.value/time.max)*100) + "% 100%"
+})
+
+time.addEventListener("input",(e)=>{
+    e.preventDefault()
+     time.value = e.target.value
+     videoPlayer.currentTime = time.value
+     time.style.backgroundSize = ((time.value/time.max)*100) + "% 100%"
+})
+
+window.addEventListener("keydown",(e)=>{
+    if(e.code==="Space"){
+        e.preventDefault()
+        playPause()
+    }
+})
+
+playPauseButton.addEventListener("click", (e) =>{
+    e.preventDefault()
+    playPause()
+})
+
+muteUnmuteButton.addEventListener("click", (e) =>{
+    e.preventDefault()
+    muteSound()
+})
+
+fullScreenButton.addEventListener("click", (e) =>{
+    e.preventDefault()
+    toggleFullscreen()
+})
+
+playBackSpeedButton.addEventListener("click", (e) =>{
+    playbackModal.classList.toggle("playback-modal-visible")
+})
+
+playBackSpeedButtonOptions.forEach(option=>option.addEventListener("click",(e)=>{
+    videoPlayer.playbackRate = option.innerText
+}))
