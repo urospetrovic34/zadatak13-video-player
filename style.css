@@ -175,7 +175,7 @@ button:hover{
     display: flex;
     align-items: center;
 }
-
+/*COMMENT*/
 @media screen and (max-width:1024px) {
     main{
         flex-direction: column;
