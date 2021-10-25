@@ -43,15 +43,16 @@ const toggleFullscreen = () => {
     if(!document.fullscreenElement){
         document.documentElement.requestFullscreen()
         videoPlayer.classList.add("full-screen-player")
-        header.classList.add("display-none")
         document.querySelector("body").classList.add("black")
         fullScreenButton.querySelector("i").classList.add("fa-compress")
         fullScreenButton.querySelector("i").classList.remove("fa-expand")
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape');
+          }
     }
     else{
         document.exitFullscreen()
         videoPlayer.classList.remove("full-screen-player")
-        header.classList.remove("display-none")
         document.querySelector("body").classList.remove("black")
         fullScreenButton.querySelector("i").classList.add("fa-expand")
         fullScreenButton.querySelector("i").classList.remove("fa-compress")
@@ -134,9 +135,15 @@ time.addEventListener("input",(e)=>{
 })
 
 window.addEventListener("keydown",(e)=>{
+    console.log(e)
     if(e.code==="Space"){
         e.preventDefault()
         playPause()
+    }
+    else if(e.code==="ArrowLeft"){
+        time.value -= 1
+        videoPlayer.currentTime = time.value
+        time.style.backgroundSize = ((time.value/time.max)*100) + "% 100%"
     }
 })
 
@@ -161,4 +168,5 @@ playBackSpeedButton.addEventListener("click", (e) =>{
 
 playBackSpeedButtonOptions.forEach(option=>option.addEventListener("click",(e)=>{
     videoPlayer.playbackRate = option.innerText
+    playbackModal.classList.remove("playback-modal-visible")
 }))

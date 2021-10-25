@@ -188,18 +188,28 @@ button:hover{
         width:100%;
     }
     .video-player{
-        width: 90%;
+        width: 90vw;
         height: auto;
         cursor: pointer;
-    }
-    .tool-kit{
-        width: 90%;
     }
 
     .full-screen-player{
         width: 100vw;
         height: 100vh;
         cursor: pointer;
-        orientation: "landscape";
+    }
+    button{
+        font-size:15px;
+    }
+    .controls{
+        margin-top: 0px;
+    }
+    .progress-slider{
+        height: 3px;
+    }
+    
+    .progress-slider::-webkit-slider-thumb{
+        height: 15px;
+        width: 15px;
     }
 }
