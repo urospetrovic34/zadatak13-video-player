@@ -100,13 +100,18 @@ progressSlider.addEventListener("input", (e) => {
 });
 
 window.addEventListener("load", (e) => {
+  if (!localStorage.getItem("volume")) {
+    progressSlider.value = 50;
+    progressSlider.style.backgroundSize = "50% 100%";
+  } else {
+    progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
+    progressSlider.style.backgroundSize =
+      parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
+  }
   videoPlayer.controls = false;
-  progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
   videoPlayer.volume = progressSlider.value * 0.01;
   time.max = videoPlayer.duration;
   time.value = videoPlayer.currentTime;
-  progressSlider.style.backgroundSize =
-    parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
   time.style.backgroundSize = 0 + "% 100%";
 });
 
