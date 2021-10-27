@@ -17,9 +17,6 @@ let isClicked = false;
 
 window.addEventListener("load",()=>{
   videoPlayer.src = "./video1.mp4"
-})
-
-const videoCheck = () => {
   let inter = setInterval(()=>{
     if(videoPlayer.readyState >= 3){
       if (!localStorage.getItem("volume")) {
@@ -33,12 +30,15 @@ const videoCheck = () => {
       videoPlayer.controls = false;
       videoPlayer.volume = progressSlider.value * 0.01;
       time.max = videoPlayer.duration;
-      time.value = videoPlayer.currentTime;
+      time.value = 0;
       time.style.backgroundSize = 0 + "% 100%";
       console.log("Loading")
       clearInterval(inter)
     }
   },500)
+})
+
+const videoCheck = () => {
 }
 
 const playPause = () => {
