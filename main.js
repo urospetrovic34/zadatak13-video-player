@@ -29,6 +29,7 @@ window.addEventListener("load",()=>{
   videoPlayer.volume = progressSlider.value * 0.01;
   time.value = 0;
   time.style.backgroundSize = 0 + "% 100%";
+  time.max = videoPlayer.duration;
   videoPlayer.controls = false;
 })
 
@@ -127,7 +128,6 @@ progressSlider.addEventListener("input", (e) => {
 
 videoPlayer.addEventListener("progress", (e) => {
   if (Math.round(videoPlayer.buffered.end(0)) / Math.round(videoPlayer.seekable.end(0)) === 1) {
-    time.max = videoPlayer.duration;
     console.log("afsf")
   }
 },false);
