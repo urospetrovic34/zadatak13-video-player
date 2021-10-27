@@ -13,6 +13,7 @@ const playBackSpeedButtonOptions = document
   .querySelector(".playback-modal")
   .querySelectorAll("button");
 const playbackModal = document.querySelector(".playback-modal");
+const loader = document.querySelector(".loader");
 let isClicked = false;
 
 window.addEventListener("load",()=>{
@@ -39,6 +40,12 @@ window.addEventListener("load",()=>{
 })
 
 const videoCheck = () => {
+  if(videoPlayer.readyState<3){
+    loader.classList.add("visible")
+  }
+  else{
+    loader.classList.remove("visible")
+  }
 }
 
 const playPause = () => {
@@ -125,7 +132,7 @@ progressSlider.addEventListener("input", (e) => {
   }
 });
 
-videoPlayer.addEventListener("canplaythrough", (e) => {
+videoPlayer.addEventListener("timeupdate", (e) => {
   videoCheck()
 });
 
