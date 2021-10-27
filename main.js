@@ -100,6 +100,7 @@ progressSlider.addEventListener("input", (e) => {
 });
 
 window.addEventListener("load", (e) => {
+    console.log(videoPlayer.readyState);
   if (!localStorage.getItem("volume")) {
     progressSlider.value = 50;
     progressSlider.style.backgroundSize = "50% 100%";
