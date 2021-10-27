@@ -18,29 +18,22 @@ let isClicked = false;
 
 window.addEventListener("load",()=>{
   videoPlayer.src = "./video1.mp4"
-  let inter = setInterval(()=>{
-    if(videoPlayer.readyState >= 3){
-      if (!localStorage.getItem("volume")) {
-        progressSlider.value = 50;
-        progressSlider.style.backgroundSize = "50% 100%";
-      } else {
-        progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
-        progressSlider.style.backgroundSize =
-          parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
-      }
-      videoPlayer.controls = false;
-      videoPlayer.volume = progressSlider.value * 0.01;
-      time.max = videoPlayer.duration;
-      time.value = 0;
-      time.style.backgroundSize = 0 + "% 100%";
-      console.log("Loading")
-      clearInterval(inter)
-    }
-  },500)
+  if (!localStorage.getItem("volume")) {
+    progressSlider.value = 50;
+    progressSlider.style.backgroundSize = "50% 100%";
+  } else {
+    progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
+    progressSlider.style.backgroundSize =
+      parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
+  }
+  videoPlayer.volume = progressSlider.value * 0.01;
+  time.value = 0;
+  time.style.backgroundSize = 0 + "% 100%";
+  videoPlayer.controls = false;
 })
 
 const videoCheck = () => {
-  if(videoPlayer.readyState<3){
+  if(videoPlayer.readyState<=4){
     loader.classList.add("visible")
   }
   else{
@@ -132,9 +125,12 @@ progressSlider.addEventListener("input", (e) => {
   }
 });
 
-videoPlayer.addEventListener("timeupdate", (e) => {
-  videoCheck()
-});
+videoPlayer.addEventListener("progress", (e) => {
+  if (Math.round(videoPlayer.buffered.end(0)) / Math.round(videoPlayer.seekable.end(0)) === 1) {
+    time.max = videoPlayer.duration;
+    console.log("afsf")
+  }
+},false);
 
 videoPlayer.addEventListener("click", (e) => {
   e.preventDefault();
