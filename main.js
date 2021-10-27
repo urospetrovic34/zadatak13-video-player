@@ -31,6 +31,7 @@ const videoCheck = () => {
       time.max = videoPlayer.duration;
       time.value = videoPlayer.currentTime;
       time.style.backgroundSize = 0 + "% 100%";
+      console.log("Loading")
       clearInterval(inter)
     }
   },500)
