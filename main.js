@@ -15,6 +15,27 @@ const playBackSpeedButtonOptions = document
 const playbackModal = document.querySelector(".playback-modal");
 let isClicked = false;
 
+const videoCheck = () => {
+  let inter = setInterval(()=>{
+    if(videoPlayer.readyState >= 3){
+      if (!localStorage.getItem("volume")) {
+        progressSlider.value = 50;
+        progressSlider.style.backgroundSize = "50% 100%";
+      } else {
+        progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
+        progressSlider.style.backgroundSize =
+          parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
+      }
+      videoPlayer.controls = false;
+      videoPlayer.volume = progressSlider.value * 0.01;
+      time.max = videoPlayer.duration;
+      time.value = videoPlayer.currentTime;
+      time.style.backgroundSize = 0 + "% 100%";
+      clearInterval(inter)
+    }
+  },500)
+}
+
 const playPause = () => {
   videoPlayer.paused || videoPlayer.ended
     ? (videoPlayer.play(),
@@ -99,21 +120,8 @@ progressSlider.addEventListener("input", (e) => {
   }
 });
 
-window.addEventListener("load", (e) => {
-    console.log(videoPlayer.readyState);
-  if (!localStorage.getItem("volume")) {
-    progressSlider.value = 50;
-    progressSlider.style.backgroundSize = "50% 100%";
-  } else {
-    progressSlider.value = parseFloat(localStorage.getItem("volume")) * 100;
-    progressSlider.style.backgroundSize =
-      parseFloat(localStorage.getItem("volume")) * 100 + "% 100%";
-  }
-  videoPlayer.controls = false;
-  videoPlayer.volume = progressSlider.value * 0.01;
-  time.max = videoPlayer.duration;
-  time.value = videoPlayer.currentTime;
-  time.style.backgroundSize = 0 + "% 100%";
+videoPlayer.addEventListener("loadeddata", (e) => {
+  videoCheck()
 });
 
 videoPlayer.addEventListener("click", (e) => {
