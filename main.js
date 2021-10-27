@@ -15,6 +15,10 @@ const playBackSpeedButtonOptions = document
 const playbackModal = document.querySelector(".playback-modal");
 let isClicked = false;
 
+window.addEventListener("load",()=>{
+  videoPlayer.src = "./video1.mp4"
+})
+
 const videoCheck = () => {
   let inter = setInterval(()=>{
     if(videoPlayer.readyState >= 3){
