@@ -17,7 +17,6 @@ const loader = document.querySelector(".loader");
 let isClicked = false;
 
 window.addEventListener("load",()=>{
-  videoPlayer.src = "./video1.mp4"
   if (!localStorage.getItem("volume")) {
     progressSlider.value = 50;
     progressSlider.style.backgroundSize = "50% 100%";
