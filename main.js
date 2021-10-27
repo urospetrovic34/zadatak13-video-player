@@ -18,6 +18,7 @@ let isClicked = false;
 
 window.addEventListener("load",()=>{
   videoPlayer.src = "./video1.mp4"
+  time.max = videoPlayer.duration;
   if (!localStorage.getItem("volume")) {
     progressSlider.value = 50;
     progressSlider.style.backgroundSize = "50% 100%";
@@ -29,7 +30,6 @@ window.addEventListener("load",()=>{
   videoPlayer.volume = progressSlider.value * 0.01;
   time.value = 0;
   time.style.backgroundSize = 0 + "% 100%";
-  time.max = videoPlayer.duration;
   videoPlayer.controls = false;
 })
 
