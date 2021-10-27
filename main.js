@@ -120,7 +120,7 @@ progressSlider.addEventListener("input", (e) => {
   }
 });
 
-videoPlayer.addEventListener("loadeddata", (e) => {
+videoPlayer.addEventListener("canplaythrough", (e) => {
   videoCheck()
 });
 
