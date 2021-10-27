@@ -142,6 +142,7 @@ videoPlayer.addEventListener("timeupdate", (e) => {
 
 time.addEventListener("input", (e) => {
   e.preventDefault();
+  console.log(`${e.target.value}`)
   time.value = e.target.value;
   videoPlayer.currentTime = time.value;
   time.style.backgroundSize = (time.value / time.max) * 100 + "% 100%";
