@@ -18,7 +18,6 @@ let isClicked = false;
 
 window.addEventListener("load",()=>{
   videoPlayer.src = "./video1.mp4"
-  time.max = videoPlayer.duration;
   if (!localStorage.getItem("volume")) {
     progressSlider.value = 50;
     progressSlider.style.backgroundSize = "50% 100%";
@@ -30,6 +29,10 @@ window.addEventListener("load",()=>{
   videoPlayer.volume = progressSlider.value * 0.01;
   time.value = 0;
   time.style.backgroundSize = 0 + "% 100%";
+  let inter = setInterval(()=>{
+    time.max = videoPlayer.duration;
+    clearInterval(inter)
+  },500)
   videoPlayer.controls = false;
 })
 
@@ -125,12 +128,6 @@ progressSlider.addEventListener("input", (e) => {
     muteSound();
   }
 });
-
-videoPlayer.addEventListener("progress", (e) => {
-  if (Math.round(videoPlayer.buffered.end(0)) / Math.round(videoPlayer.seekable.end(0)) === 1) {
-    console.log("afsf")
-  }
-},false);
 
 videoPlayer.addEventListener("click", (e) => {
   e.preventDefault();
