@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="./assets/favicon-32x32.png" type="image/gif" />
+    <title>Video Player</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <main>
+        <div class="video-player-container">
+          <video class="video-player" controls>
+            <source src="./video1.mp4" type="video/mp4">
+            <source src="./video1.ogg" type="video/ogg">
+            <source src="./video1.webm" type="video/webm">
+          </video>
+          <div class="loader"></div>
+          <div class="tool-kit">
+            <div class="playback-modal">
+              <div>
+                <button>0.5</button>
+              </div>
+              <div>
+                <button>0.75</button>
+              </div>
+              <div>
+                <button>1.0</button>
+              </div>
+              <div>
+                <button>1.5</button>
+              </div>
+              <div>
+                <button>2.0</button>
+              </div>
+            </div>
+            <div class="time-progress">
+              <input type="range" min="0" max="100" class="time" />
+            </div>
+            <div class="controls">
+              <div class="flex-container">
+                <div>
+                  <button class="play-pause-button">
+                    <i class="fas fa-play"></i>
+                  </button>
+                </div>
+                <div class="sound-container">
+                  <button class="mute-unmute-button">
+                    <i class="fas fa-volume-up"></i>
+                  </button>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    class="progress-slider"
+                  />
+                </div>
+              </div>
+              <div class="flex-container">
+                <div>
+                  <button class="playback-speed-button">
+                    <i class="fas fa-cog"></i>
+                  </button>
+                </div>
+                <div>
+                  <button class="fullscreen-button">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>
